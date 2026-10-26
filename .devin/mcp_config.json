@@ -1,8 +1,8 @@
 {
   "mcpServers": {
     "android": {
-      "command": "uvx",
-      "args": ["mcadb"],
+      "command": "python",
+      "args": ["C:\\Users\\DBTECH AFRICA\\Desktop\\AI with Mobile Apps\\mcadb-wrapper.py"],
       "env": {
         "ADB_PATH": "C:\\Platform-Tools\\adb.exe"
       }
