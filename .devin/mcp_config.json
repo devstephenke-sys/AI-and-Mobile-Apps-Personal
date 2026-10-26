@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "android": {
+      "command": "uvx",
+      "args": ["mcadb"],
+      "env": {
+        "ADB_PATH": "C:\\Platform-Tools\\adb.exe"
+      }
+    }
+  }
+}
