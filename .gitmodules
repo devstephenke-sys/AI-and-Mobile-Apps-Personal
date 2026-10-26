@@ -1,0 +1,3 @@
+[submodule "DeepADB"]
+	path = DeepADB
+	url = https://github.com/fullread/DeepADB.git

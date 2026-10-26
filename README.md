@@ -4,7 +4,7 @@ Repository for AI-assisted mobile app development and Android device automation 
 
 ## Android MCP Server Setup
 
-This project uses **mcadb** - a Model Context Protocol server that gives AI assistants direct control over Android devices through ADB.
+This project uses **DeepADB** - a comprehensive Model Context Protocol server for Android device automation with 209 tools across 49 modules.
 
 ### Prerequisites
 
@@ -24,20 +24,29 @@ This project uses **mcadb** - a Model Context Protocol server that gives AI assi
    - Enable "USB Debugging"
    - Connect device via USB and accept debugging prompt on phone
 
-3. **Install Python and uv (if not already installed):**
-   - Python: https://www.python.org/downloads/ (install for all users, add to PATH)
-   - uv: `pip install uv` or visit https://github.com/astral-sh/uv
+3. **Install Node.js (if not already installed):**
+   - Node.js: https://nodejs.org/ (install LTS version, add to PATH)
+
+### DeepADB Installation
+
+DeepADB is included as a submodule in this repository. To set it up:
+
+```bash
+cd DeepADB
+npm ci
+npm run build
+```
 
 ### MCP Server Configuration
 
-Add this to your Devin/MCP client configuration (typically in `~/.config/devin/mcp_config.json` or similar):
+The MCP configuration is already set up in `.devin/mcp_config.json`:
 
 ```json
 {
   "mcpServers": {
-    "android": {
-      "command": "uvx",
-      "args": ["mcadb"],
+    "deepadb": {
+      "command": "node",
+      "args": ["C:\\Users\\DBTECH AFRICA\\Desktop\\AI with Mobile Apps\\DeepADB\\build\\index.js"],
       "env": {
         "ADB_PATH": "C:\\Platform-Tools\\adb.exe"
       }
@@ -48,36 +57,90 @@ Add this to your Devin/MCP client configuration (typically in `~/.config/devin/m
 
 ### Available Features
 
-Once configured, you can:
-- **Device Control**: List devices, get device info, connect wirelessly
-- **Screen Operations**: Take screenshots, tap, swipe, scroll
-- **App Management**: Launch apps, get installed packages, clear app data
-- **File Operations**: Push/pull files, list directories
-- **Shell Commands**: Run commands on device (if enabled)
-- **UI Inspection**: Dump UI hierarchy, find elements by text/ID
+DeepADB provides comprehensive Android automation capabilities:
+
+**Device & Diagnostics:**
+- Device info, health checks, runtime audit
+- Battery, network, telephony, and performance profiling
+- Bug reports, crash logs, and heap dumps
+
+**UI Automation:**
+- Screenshots (including annotated with UI elements)
+- UI hierarchy dump and element search
+- Tap, swipe, text input, and key events
+- Screen recording
+
+**App Management:**
+- Install/uninstall APKs
+- List packages and permissions
+- Grant/revoke permissions
+- Force-stop, start, and restart apps
+- Intent resolution
+
+**File Operations:**
+- Push/pull files, list directories
+- File creation, deletion, move, copy
+- Search, grep, and checksum verification
+- Permissions and ownership management
+
+**Shell & Logs:**
+- Execute shell commands (with security checks)
+- Root shell access (requires rooted device)
+- Logcat filtering and persistent watchers
+- Database inspection (SQLite)
+
+**Advanced Features:**
+- Network capture and routing analysis
+- Baseband and firmware analysis
+- SELinux auditing
+- Device profiles and workflows
+- Wear OS support
+- Multi-device orchestration
 
 ### Quick Test
 
 After setup:
 1. Connect your Android device via USB
 2. Run: `adb devices` (should show your device)
-3. The MCP server will be available to AI assistants
+3. Restart your IDE to load the MCP configuration
+4. The DeepADB server will be available to AI assistants
 
 ## Usage Examples
 
 ```bash
-# List connected devices
-# AI can invoke: devices_list
+# Check device health
+# AI can invoke: adb_health_check
 
-# Take a screenshot
-# AI can invoke: screen_capture
+# List connected devices
+# AI can invoke: adb_devices
+
+# Take screenshot with UI annotations
+# AI can invoke: adb_screencap_annotated
+
+# Get screen state and UI elements
+# AI can invoke: adb_screen_state
+
+# Install an APK
+# AI can invoke: adb_install path/to/app.apk
 
 # Launch an app
-# AI can invoke: launch_app com.example.app
+# AI can invoke: adb_start_app com.example.app
 
-# Tap a screen coordinate
-# AI can invoke: input_tap 500 1000
+# Tap on a UI element
+# AI can invoke: adb_ui_find "Button text" then adb_input tap
+
+# Get device diagnostics
+# AI can invoke: adb_device_info, adb_battery, adb_network
 ```
+
+## DeepADB Architecture
+
+DeepADB operates in two modes:
+
+1. **ADB Mode (default)**: Runs on your PC and communicates with the device over USB via ADB
+2. **On-Device Mode**: Runs directly on the Android device (via Termux) with direct command execution
+
+For more details, see the [DeepADB documentation](https://github.com/fullread/DeepADB).
 
 ## Security Notes
 
@@ -85,8 +148,10 @@ After setup:
 - Only connect trusted devices
 - Disable USB debugging when not in use
 - Review which operations you allow the AI to perform
+- DeepADB includes security middleware and input sanitization
 
 ## Resources
 
-- mcadb: https://pypi.org/project/mcadb/
+- DeepADB: https://github.com/fullread/DeepADB
 - ADB Documentation: https://developer.android.com/studio/command-line/adb
+- Model Context Protocol: https://modelcontextprotocol.io/
