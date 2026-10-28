@@ -1,0 +1,18 @@
+# Airtel Money API Integration Requirements
+
+# Core dependencies
+requests>=2.31.0
+flask>=3.0.0
+
+# Optional dependencies for enhanced functionality
+python-dotenv>=1.0.0  # For environment variable management
+pyyaml>=6.0.0  # For configuration files
+
+# Development dependencies
+pytest>=7.4.0  # For unit testing
+pytest-cov>=4.1.0  # For code coverage
+black>=23.0.0  # For code formatting
+flake8>=6.0.0  # For linting
+
+# Security
+cryptography>=41.0.0  # For signature verification

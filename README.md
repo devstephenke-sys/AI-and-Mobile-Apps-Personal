@@ -142,6 +142,97 @@ DeepADB operates in two modes:
 
 For more details, see the [DeepADB documentation](https://github.com/fullread/DeepADB).
 
+## Airtel Money API Integration
+
+This project includes a complete Airtel Money API integration for payment processing and airtime purchases.
+
+### Components
+
+1. **API Client** (`airtel_api_client.py`)
+   - OAuth2 authentication with automatic token refresh
+   - USSD push payment collection
+   - Payment disbursement (B2C)
+   - Transaction status enquiries
+   - Refund processing
+
+2. **Webhook Server** (`airtel_webhook_server.py`)
+   - Flask server for transaction callbacks
+   - Handles payment status updates
+   - Transaction history tracking
+   - Health check endpoints
+
+3. **Airtime Purchase Module** (`airtel_airtime_purchase.py`)
+   - Specialized airtime top-up implementation
+   - REST API for airtime purchases
+   - Transaction status monitoring
+   - Complete purchase flow management
+
+4. **Testing Suite** (`test_airtel_api.py`)
+   - Automated testing for all components
+   - Interactive testing mode
+   - Comprehensive test coverage
+
+### Setup
+
+1. **Install Dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+2. **Configure Credentials**
+   ```bash
+   cp .env.example .env
+   # Edit .env with your Airtel Developer Portal credentials
+   ```
+
+3. **Run Tests**
+   ```bash
+   # Automated tests
+   python test_airtel_api.py
+
+   # Interactive testing
+   python test_airtel_api.py --interactive
+   ```
+
+### Usage
+
+```python
+from airtel_api_client import AirtelMoneyClient
+
+# Initialize client
+client = AirtelMoneyClient(
+    client_id="your_client_id",
+    client_secret="your_client_secret",
+    sandbox=True
+)
+
+# Authenticate
+client.authenticate()
+
+# USSD Push for payment
+response = client.ussd_push(
+    msisdn="712345678",
+    amount=100.0,
+    reference="Airtime Purchase",
+    transaction_id="TXN_1234567890"
+)
+
+# Check status
+status = client.collection_enquiry("TXN_1234567890")
+```
+
+### Documentation
+
+See [AIRTEL_API_INTEGRATION.md](AIRTEL_API_INTEGRATION.md) for complete documentation including:
+- API endpoint reference
+- Security best practices
+- Deployment guide
+- Troubleshooting
+
+**Official Documentation:**
+- Airtel Developer Portal: https://developers.airtel.africa/docs
+- API Documentation: https://developers.airtelkenya.com/documentation
+
 ## Security Notes
 
 - USB debugging gives full device access
@@ -149,9 +240,11 @@ For more details, see the [DeepADB documentation](https://github.com/fullread/De
 - Disable USB debugging when not in use
 - Review which operations you allow the AI to perform
 - DeepADB includes security middleware and input sanitization
+- **Airtel API**: Never commit credentials to version control; use environment variables
 
 ## Resources
 
 - DeepADB: https://github.com/fullread/DeepADB
 - ADB Documentation: https://developer.android.com/studio/command-line/adb
 - Model Context Protocol: https://modelcontextprotocol.io/
+- Airtel Developer Portal: https://developers.airtel.africa
